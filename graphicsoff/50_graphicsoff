@@ -4,36 +4,41 @@ import sys
 import argparse
 import traceback
 
-smbios_tag = 'smbios'
+graphics_tag = 'graphics'
+video_tag = 'video'
 
-def smbiosremove(domxml):
-    nodes = domxml.getElementsByTagName(smbios_tag)
+def graphicsoff(domxml):
+    removetag(graphics_tag, domxml)
+    removetag(video_tag, domxml)
+    return domxml
+
+def removetag(tag_name, domxml):
+    nodes = domxml.getElementsByTagName(tag_name)
     if len(nodes) > 0:
         for node in nodes:
             parent = node.parentNode
             parent.removeChild(node)
-
     return domxml
 
 def testfile():
     from xml.dom.minidom import parse
     domxml = parse('test.xml')
-    domxml = smbiosremove(domxml)
+    domxml = graphicsoff(domxml)
     print(domxml.toprettyxml())
 
 def hook():
     import hooking
-    if hooking.tobool(os.environ.get('smbiosremove')):
+    if hooking.tobool(os.environ.get('graphicsoff')):
         try:
             domxml = hooking.read_domxml()
-            domxml = smbiosremove(domxml)
+            domxml = graphicsoff(domxml)
             hooking.write_domxml(domxml)
         except:
-            sys.stderr.write('smbiosremove: [unexpected error]: %s\n' % traceback.format_exc())
+            sys.stderr.write('graphicsoff: [unexpected error]: %s\n' % traceback.format_exc())
             sys.exit(2)
 
 def main():
-    parser = argparse.ArgumentParser(description='VDSM Hook for remove smbios from os section of the vm')
+    parser = argparse.ArgumentParser(description='VDSM Hook for remove graphics/video from the vm')
     parser.add_argument('--debug', action='store_true',
         help='Run this in debug mode for testing xml file and printing output')
     args = parser.parse_args()

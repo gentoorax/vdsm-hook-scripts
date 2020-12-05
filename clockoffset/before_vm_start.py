@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/libexec/platform-python
 import os
 import sys
 import argparse
@@ -8,7 +8,7 @@ clock_tag = 'clock'
 
 def clockoffset(domxml, clockoffsetmanual):
     clock = domxml.getElementsByTagName(clock_tag)
-    if clock > 0:
+    if len(clock) > 0:
         set_clock_offset(clock[0], clockoffsetmanual)
 
     return domxml
@@ -31,7 +31,7 @@ def testfile():
 
 def hook():
     import hooking
-    if os.environ.has_key('clockoffset'):
+    if os.environ.__contains__('clockoffset'):
         try:
             clockoffsetmanual = os.environ.get('clockoffset')
             domxml = hooking.read_domxml()

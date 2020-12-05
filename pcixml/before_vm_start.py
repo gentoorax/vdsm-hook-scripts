@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/libexec/platform-python
 
 import os
 import sys
@@ -38,14 +38,14 @@ def testfile():
 
 def convertdomtoet(domxml):
     return ET.fromstring(domxml.toxml())
-    
+
 def convertettodom(etxml):
     etstr = ET.tostring(etxml)
     return minidom.parseString(etstr)
 
 def hook():
     import hooking
-    if os.environ.has_key('pcixmlfile'):
+    if os.environ.__contains__('pcixmlfile'):
         try:
             pcixmlfilename = os.environ['pcixmlfile']
             domxml = hooking.read_domxml()

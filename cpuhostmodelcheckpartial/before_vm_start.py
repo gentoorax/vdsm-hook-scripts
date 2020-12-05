@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/libexec/platform-python
 import os
 import sys
 import argparse
@@ -8,7 +8,7 @@ cpu_tag = 'cpu'
 
 def cpuhostmodelcheckpartial(domxml):
     cpu = domxml.getElementsByTagName(cpu_tag)
-    if cpu > 0:
+    if len(cpu) > 0:
         set_cpu_model(cpu[0])
 
     return domxml

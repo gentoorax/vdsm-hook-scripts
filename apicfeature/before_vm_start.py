@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/libexec/platform-python
 import os
 import sys
 import argparse
